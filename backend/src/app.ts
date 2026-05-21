@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import profileRoutes from "./routes/profileRoutes";
-import gymRoutes from "./routes/gymRoutes";
+import gymRoutes from "./routes/lampRoutes";
 import requireAuth from "./middleware/authMiddleware";
 import errorMiddleware from "./middleware/errorMiddleware";
 
@@ -23,7 +23,7 @@ app.use(
 app.use("/profile", profileRoutes);
 
 app.use(
-  "/gyms",
+  "/lamps",
   (req, res, next) => {
     if (req.method === "POST") return requireAuth(req, res, next);
     next();

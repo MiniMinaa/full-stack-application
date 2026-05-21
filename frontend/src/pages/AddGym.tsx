@@ -1,60 +1,70 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
-import { createGym } from '../services/api'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { createNewLamp } from "../services/api";
 
 export default function AddGym() {
-  const navigate = useNavigate()
-  const { isAuthenticated, isLoading, getAccessTokenSilently, loginWithRedirect } = useAuth0()
+  const navigate = useNavigate();
+  const {
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+    loginWithRedirect,
+  } = useAuth0();
 
-  const [name, setName] = useState('')
-  const [location, setLocation] = useState('')
-  const [description, setDescription] = useState('')
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      loginWithRedirect()
+      loginWithRedirect();
     }
-  }, [isLoading, isAuthenticated, loginWithRedirect])
+  }, [isLoading, isAuthenticated, loginWithRedirect]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
     reader.onload = () => {
-      const result = reader.result as string
-      setImageUrl(result)
-      setImagePreview(result)
-    }
-    reader.readAsDataURL(file)
-  }
+      const result = reader.result as string;
+      setImageUrl(result);
+      setImagePreview(result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e: { preventDefault(): void }) => {
-    e.preventDefault()
-    if (!imageUrl) return
-    setSubmitting(true)
-    setError(null)
+    e.preventDefault();
+    if (!imageUrl) return;
+    setSubmitting(true);
+    setError(null);
     try {
-      const token = await getAccessTokenSilently()
-      const gym = await createGym({ name, location, description, imageUrl }, token)
-      navigate(`/gyms/${gym.id}`)
+      const token = await getAccessTokenSilently();
+      const gym = await createNewLamp(
+        { name, location, description, imageUrl },
+        token,
+      );
+      navigate(`/gyms/${gym.id}`);
     } catch {
-      setError('Failed to create gym. Please try again.')
-      setSubmitting(false)
+      setError("Failed to create gym. Please try again.");
+      setSubmitting(false);
     }
-  }
+  };
 
   if (isLoading || !isAuthenticated) {
-    return <div className="status">Redirecting to login...</div>
+    return <div className="status">Redirecting to login...</div>;
   }
 
   return (
     <div className="page page-narrow">
-      <button className="btn-back" onClick={() => navigate('/')}>← Back to gyms</button>
+      <button className="btn-back" onClick={() => navigate("/")}>
+        ← Back to gyms
+      </button>
       <h1>Add a gym</h1>
       <form onSubmit={handleSubmit} className="gym-form">
         <div className="form-group">
@@ -63,7 +73,7 @@ export default function AddGym() {
             id="name"
             type="text"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             placeholder="The name of the gym"
             required
           />
@@ -74,7 +84,7 @@ export default function AddGym() {
             id="location"
             type="text"
             value={location}
-            onChange={e => setLocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Where the gym is located"
             required
           />
@@ -84,7 +94,7 @@ export default function AddGym() {
           <textarea
             id="description"
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="Tell people what makes this gym special..."
             rows={4}
           />
@@ -93,9 +103,15 @@ export default function AddGym() {
           <label htmlFor="image">Gym Image *</label>
           <label htmlFor="image" className="image-upload-label">
             {imagePreview ? (
-              <img src={imagePreview} alt="Preview" className="image-upload-preview" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="image-upload-preview"
+              />
             ) : (
-              <span className="image-upload-placeholder">Click to upload an image</span>
+              <span className="image-upload-placeholder">
+                Click to upload an image
+              </span>
             )}
           </label>
           <input
@@ -108,7 +124,11 @@ export default function AddGym() {
         </div>
         {error && <p className="form-error">{error}</p>}
         <div className="form-actions">
-          <button type="button" className="btn btn-cancel" onClick={() => navigate('/')}>
+          <button
+            type="button"
+            className="btn btn-cancel"
+            onClick={() => navigate("/")}
+          >
             Cancel
           </button>
           <button
@@ -116,10 +136,10 @@ export default function AddGym() {
             className="btn btn-dark"
             disabled={submitting || !name || !location || !imageUrl}
           >
-            {submitting ? 'Adding...' : 'Add Gym'}
+            {submitting ? "Adding..." : "Add Gym"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }

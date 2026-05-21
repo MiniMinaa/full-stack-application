@@ -7,13 +7,14 @@ import {
   addReviewToGym,
 } from "../services/gymService.js";
 
-export const getGyms = (req: Request, res: Response): void => {
+// Keep the original behaviour but export using the new names the routes expect.
+export const getLamps = (req: Request, res: Response): void => {
   const gyms = getAllGyms();
 
   res.status(200).json(gyms);
 };
 
-export const getSingleGym = (req: Request, res: Response): void => {
+export const getSinglelamp = (req: Request, res: Response): void => {
   const gymId = Number(req.params.id);
 
   const gym = getGymById(gymId);
@@ -29,7 +30,7 @@ export const getSingleGym = (req: Request, res: Response): void => {
   res.status(200).json(gym);
 };
 
-export const createNewGym = (req: Request, res: Response): void => {
+export const createNewLamp = (req: Request, res: Response): void => {
   const { name, location, description, imageUrl } = req.body;
 
   if (!name || !location || !imageUrl) {

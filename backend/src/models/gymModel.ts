@@ -17,10 +17,11 @@ export interface Gym {
 export const gyms: Gym[] = [
   {
     id: 1,
-    name: "CrossFit Paradise",
-    location: "Malmö",
-    description: "Det största CrossFit gymmet i Skåne med toppmoderna faciliteter",
-    imageUrl: "/gym-8.webp",
+    name: "Murano Glass Orb Pendant",
+    location: "Italy",
+    description:
+      "A daringly simple silhouette, served with a dose of extraordinary detail.",
+    imageUrl: "/lamp_blue_light.png",
     reviews: [],
   },
   {
