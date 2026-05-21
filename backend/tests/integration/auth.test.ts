@@ -21,20 +21,20 @@ describe("Auth middleware — /profile", () => {
   });
 });
 
-describe("Auth middleware — /gyms POST routes", () => {
-  it("returns 401 on POST /gyms without a token", async () => {
-    const res = await request(app).post("/lamps").send({ name: "Test Gym" });
+describe("Auth middleware — /lamps POST routes", () => {
+  it("returns 401 on POST /lamps without a token", async () => {
+    const res = await request(app).post("/lamps").send({ name: "Test Lamp" });
     expect(res.status).toBe(401);
   });
 
-  it("returns 401 on POST /gyms/:id/reviews without a token", async () => {
+  it("returns 401 on POST /lamps/:id/reviews without a token", async () => {
     const res = await request(app)
       .post("/lamps/123/reviews")
       .send({ rating: 5 });
     expect(res.status).toBe(401);
   });
 
-  it("allows GET /gyms without a token", async () => {
+  it("allows GET /lamps without a token", async () => {
     const res = await request(app).get("/lamps");
     expect(res.status).not.toBe(401);
   });

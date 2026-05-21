@@ -46,13 +46,13 @@ export default function AddLamp() {
     setError(null);
     try {
       const token = await getAccessTokenSilently();
-      const gym = await createNewLamp(
+      const lamp = await createNewLamp(
         { name, location, description, imageUrl },
         token,
       );
-      navigate(`/lamps/${gym.id}`);
+      navigate(`/lamps/${lamp.id}`);
     } catch {
-      setError("Failed to create gym. Please try again.");
+      setError("Failed to create lamp. Please try again.");
       setSubmitting(false);
     }
   };
@@ -67,7 +67,7 @@ export default function AddLamp() {
         ← Back to lamps
       </button>
       <h1>Add a lamp</h1>
-      <form onSubmit={handleSubmit} className="gym-form">
+      <form onSubmit={handleSubmit} className="lamp-form">
         <div className="form-group">
           <label htmlFor="name">Lamp Name *</label>
           <input

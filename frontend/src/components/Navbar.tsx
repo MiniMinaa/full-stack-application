@@ -18,7 +18,7 @@ export default function Navbar() {
           (isAuthenticated ? (
             <>
               <Link to="/add" className="btn btn-nav-add">
-                + Add Gym
+                + Lamp
               </Link>
               <span className="navbar-user">{user?.name}</span>
               <button

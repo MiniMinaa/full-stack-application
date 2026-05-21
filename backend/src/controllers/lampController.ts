@@ -1,33 +1,33 @@
 import { type Request, type Response } from "express";
 
 import {
-  getAllGyms,
-  getGymById,
-  createGym,
-  addReviewToGym,
-} from "../services/gymService.js";
+  getAllLamps,
+  getLampById,
+  createLamp,
+  addReviewToLamp,
+} from "../services/lampService.js";
 
 // Keep the original behaviour but export using the new names the routes expect.
 export const getLamps = (req: Request, res: Response): void => {
-  const gyms = getAllGyms();
+  const lamps = getAllLamps();
 
-  res.status(200).json(gyms);
+  res.status(200).json(lamps);
 };
 
 export const getSinglelamp = (req: Request, res: Response): void => {
-  const gymId = Number(req.params.id);
+  const lampId = Number(req.params.id);
 
-  const gym = getGymById(gymId);
+  const lamp = getLampById(lampId);
 
-  if (!gym) {
+  if (!lamp) {
     res.status(404).json({
-      message: "Gym not found",
+      message: "Lamp not found",
     });
 
     return;
   }
 
-  res.status(200).json(gym);
+  res.status(200).json(lamp);
 };
 
 export const createNewLamp = (req: Request, res: Response): void => {
@@ -41,18 +41,18 @@ export const createNewLamp = (req: Request, res: Response): void => {
     return;
   }
 
-  const newGym = createGym({
+  const newLamp = createLamp({
     name,
     location,
     description,
     imageUrl,
   });
 
-  res.status(201).json(newGym);
+  res.status(201).json(newLamp);
 };
 
 export const createReview = (req: Request, res: Response): void => {
-  const gymId = Number(req.params.id);
+  const lampId = Number(req.params.id);
 
   const { author, rating, comment } = req.body;
 
@@ -64,7 +64,7 @@ export const createReview = (req: Request, res: Response): void => {
     return;
   }
 
-  const review = addReviewToGym(gymId, {
+  const review = addReviewToLamp(lampId, {
     author,
     rating,
     comment,
@@ -72,7 +72,7 @@ export const createReview = (req: Request, res: Response): void => {
 
   if (!review) {
     res.status(404).json({
-      message: "Gym not found",
+      message: "Lamp not found",
     });
 
     return;

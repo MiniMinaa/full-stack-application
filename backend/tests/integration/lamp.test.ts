@@ -3,25 +3,25 @@ import { describe, it, expect } from "vitest";
 
 import app from "../../src/app.js";
 
-describe("Gyms API", () => {
-  it("GET /gyms should return all gyms", async () => {
+describe("Lamps API", () => {
+  it("GET /lamps should return all lamps", async () => {
     const response = await request(app).get("/lamps");
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
   });
 
-  it("GET /gyms/:id should return a single gym", async () => {
+  it("GET /lamps/:id should return a single lamp", async () => {
     const response = await request(app).get("/lamps/1");
 
     expect(response.status).toBe(200);
     expect(response.body.id).toBe(1);
   });
 
-  it("GET /gyms/:id should return 404 for invalid gym", async () => {
+  it("GET /lamps/:id should return 404 for invalid lamp", async () => {
     const response = await request(app).get("/lamps/999");
 
     expect(response.status).toBe(404);
-    expect(response.body.message).toBe("Gym not found");
+    expect(response.body.message).toBe("Lamp not found");
   });
 });

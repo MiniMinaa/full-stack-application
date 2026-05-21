@@ -5,7 +5,7 @@ export interface Review {
   comment?: string;
 }
 
-export interface Gym {
+export interface Lamp {
   id: number;
   name: string;
   location: string;
@@ -14,7 +14,7 @@ export interface Gym {
   reviews: Review[];
 }
 
-export const gyms: Gym[] = [
+export const lamps: Lamp[] = [
   {
     id: 1,
     name: "Murano Glass Orb Pendant",

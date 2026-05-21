@@ -5,7 +5,7 @@ import {
   getSinglelamp,
   createNewLamp,
   createReview,
-} from "../controllers/gymController.js";
+} from "../controllers/lampController.js";
 
 const router = express.Router();
 

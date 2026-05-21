@@ -1,7 +1,7 @@
 {
-  "name": "gym-review-api",
+  "name": "lamp-review-api",
   "version": "1.0.0",
-  "description": "REST API for reviewing gyms",
+  "description": "REST API for reviewing lamps",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
     "dev:backend": "npm run dev --prefix backend",
