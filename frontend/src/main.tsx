@@ -1,14 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Auth0Provider } from '@auth0/auth0-react'
-import App from './App'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Auth0Provider } from "@auth0/auth0-react";
+import App from "./App";
+import "./index.css";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
-const domain = import.meta.env.VITE_AUTH0_DOMAIN as string
-const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID as string
-const audience = import.meta.env.VITE_AUTH0_AUDIENCE as string
+const domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID as string;
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Auth0Provider
       domain={domain}
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')!).render(
         audience,
       }}
     >
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Auth0Provider>
   </StrictMode>,
-)
+);

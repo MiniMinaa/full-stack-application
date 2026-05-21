@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLamps } from "../services/api";
 import type { Gym } from "../types";
+import { useTheme } from "../contexts/ThemeContext";
+import ThemeToggle from "../components/ThemeToggle";
+import FadeImage from "../components/FadeImage";
+import CrossfadeImage from "../components/CrossfadeImage";
 
 function avgRating(gym: Gym): string | null {
   if (!gym.reviews.length) return null;
@@ -24,10 +28,18 @@ export default function Browse() {
   if (loading) return <div className="status">Loading lamps...</div>;
   if (error) return <div className="status error">{error}</div>;
 
+  const { theme } = useTheme();
+
   return (
     <div className="page">
-      <div className="page-header">
+      <div
+        className="page-header"
+        style={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <h1 className="browse-title">Browse Lamps</h1>
+        <div style={{ marginLeft: "1rem" }}>
+          <ThemeToggle />
+        </div>
       </div>
 
       {gyms.length === 0 ? (
@@ -40,13 +52,37 @@ export default function Browse() {
             const avg = avgRating(gym);
             return (
               <Link to={`/gyms/${gym.id}`} key={gym.id} className="gym-card">
-                {gym.imageUrl && (
-                  <img
-                    src={gym.imageUrl}
-                    alt={gym.name}
-                    className="gym-card-img"
-                  />
-                )}
+                {gym.imageUrl &&
+                  (() => {
+                    const light = gym.imageUrl;
+                    const dark = gym.imageUrl.includes("lamp_blue_light")
+                      ? gym.imageUrl.replace(
+                          "lamp_blue_light",
+                          "lamp_blue_dark",
+                        )
+                      : gym.imageUrl;
+                    // if we have distinct light/dark variants use crossfade
+                    if (light !== dark) {
+                      return (
+                        <CrossfadeImage
+                          lightSrc={light}
+                          darkSrc={dark}
+                          theme={theme}
+                          alt={gym.name}
+                          className="gym-card-img"
+                          durationMs={1200}
+                        />
+                      );
+                    }
+                    return (
+                      <FadeImage
+                        src={gym.imageUrl}
+                        alt={gym.name}
+                        className="gym-card-img"
+                        durationMs={1200}
+                      />
+                    );
+                  })()}
                 <h2 className="gym-card-name">{gym.name}</h2>
                 <p className="gym-card-location">📍 {gym.location}</p>
                 {gym.description && (

@@ -1,9 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Navbar() {
   const { isAuthenticated, isLoading, loginWithRedirect, logout, user } =
     useAuth0();
+  // theme toggle moved to Browse header
 
   return (
     <nav className="navbar">
@@ -11,6 +13,7 @@ export default function Navbar() {
         Lightning
       </Link>
       <div className="navbar-actions">
+        {/* theme toggle moved to Browse header */}
         {!isLoading &&
           (isAuthenticated ? (
             <>

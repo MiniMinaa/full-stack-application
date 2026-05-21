@@ -3,12 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getSinglelamp, createReview } from "../services/api";
 import type { Gym } from "../types";
+import { useTheme } from "../contexts/ThemeContext";
+import FadeImage from "../components/FadeImage";
+import CrossfadeImage from "../components/CrossfadeImage";
 
 export default function GymDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { isAuthenticated, getAccessTokenSilently, loginWithRedirect, user } =
     useAuth0();
+  const { theme } = useTheme();
 
   const [gym, setGym] = useState<Gym | null>(null);
   const [loading, setLoading] = useState(true);
@@ -65,6 +69,11 @@ export default function GymDetail() {
       ).toFixed(1)
     : null;
 
+  const imageSrc =
+    theme === "dark" && gym.imageUrl?.includes("lamp_blue_light")
+      ? gym.imageUrl.replace("lamp_blue_light", "lamp_blue_dark")
+      : gym.imageUrl;
+
   return (
     <div className="page">
       <button className="btn-back" onClick={() => navigate("/")}>
@@ -72,9 +81,33 @@ export default function GymDetail() {
       </button>
 
       <div className="gym-detail-card">
-        {gym.imageUrl && (
-          <img src={gym.imageUrl} alt={gym.name} className="gym-detail-img" />
-        )}
+        {gym.imageUrl &&
+          (() => {
+            const light = gym.imageUrl;
+            const dark = gym.imageUrl.includes("lamp_blue_light")
+              ? gym.imageUrl.replace("lamp_blue_light", "lamp_blue_dark")
+              : gym.imageUrl;
+            if (light !== dark) {
+              return (
+                <CrossfadeImage
+                  lightSrc={light}
+                  darkSrc={dark}
+                  theme={theme}
+                  alt={gym.name}
+                  className="gym-detail-img"
+                  durationMs={1200}
+                />
+              );
+            }
+            return (
+              <FadeImage
+                src={imageSrc!}
+                alt={gym.name}
+                className="gym-detail-img"
+                durationMs={1200}
+              />
+            );
+          })()}
 
         <div className="gym-detail-body">
           <div className="gym-detail-header">
@@ -130,6 +163,7 @@ export default function GymDetail() {
                     ))}
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="comment">Comment (optional)</label>
                   <textarea
