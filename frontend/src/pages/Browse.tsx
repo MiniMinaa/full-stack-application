@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLamps } from "../services/api";
-import type { Gym } from "../types";
+import type { Lamp } from "../types";
 import { useTheme } from "../contexts/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
 import FadeImage from "../components/FadeImage";
 import CrossfadeImage from "../components/CrossfadeImage";
 
-function avgRating(gym: Gym): string | null {
+function avgRating(gym: Lamp): string | null {
   if (!gym.reviews.length) return null;
   const sum = gym.reviews.reduce((acc, r) => acc + r.rating, 0);
   return (sum / gym.reviews.length).toFixed(1);
 }
 
 export default function Browse() {
-  const [gyms, setGyms] = useState<Gym[]>([]);
+  const [gyms, setGyms] = useState<Lamp[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,16 +51,13 @@ export default function Browse() {
           {gyms.map((gym) => {
             const avg = avgRating(gym);
             return (
-              <Link to={`/gyms/${gym.id}`} key={gym.id} className="gym-card">
+              <Link to={`/lamps/${gym.id}`} key={gym.id} className="gym-card">
                 {gym.imageUrl &&
                   (() => {
-                    const light = gym.imageUrl;
-                    const dark = gym.imageUrl.includes("lamp_blue_light")
-                      ? gym.imageUrl.replace(
-                          "lamp_blue_light",
-                          "lamp_blue_dark",
-                        )
-                      : gym.imageUrl;
+                    const light = gym.imageUrl!;
+                    const dark = light.includes("_light")
+                      ? light.replace("_light", "_dark")
+                      : light;
                     // if we have distinct light/dark variants use crossfade
                     if (light !== dark) {
                       return (

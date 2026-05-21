@@ -29,7 +29,7 @@ export const gyms: Gym[] = [
     name: "Fitness Hub",
     location: "Lund",
     description: "Ett modernt träningscenter med fokus på gruppträning",
-    imageUrl: "/gym-10.webp",
+    imageUrl: "/lamp_brown_light.png",
     reviews: [],
   },
   {
@@ -37,7 +37,7 @@ export const gyms: Gym[] = [
     name: "Träningscentralen",
     location: "Stockholm",
     description: "Klassiskt gym i hjärtat av Stockholm med allt du behöver",
-    imageUrl: "/gym-2.jpg",
+    imageUrl: "/lamp_red_light.png",
     reviews: [],
   },
 ];
