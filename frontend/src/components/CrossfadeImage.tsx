@@ -20,17 +20,14 @@ export default function CrossfadeImage({
   const [loadedLight, setLoadedLight] = useState(false);
   const [loadedDark, setLoadedDark] = useState(false);
 
-  // preload both images (set handlers before src to catch cached images)
+  // preload both
   useEffect(() => {
     const a = new Image();
-    a.onload = () => setLoadedLight(true);
-    a.onerror = () => setLoadedLight(false);
     a.src = lightSrc;
-
+    a.onload = () => setLoadedLight(true);
     const b = new Image();
-    b.onload = () => setLoadedDark(true);
-    b.onerror = () => setLoadedDark(false);
     b.src = darkSrc;
+    b.onload = () => setLoadedDark(true);
   }, [lightSrc, darkSrc]);
 
   const styleImg = (isTop: boolean) => ({
@@ -45,12 +42,14 @@ export default function CrossfadeImage({
   });
 
   return (
-    <div style={{ position: "relative", overflow: "hidden", width: "100%", height: "100%" }}>
-      {/* Light image (base) */}
+    <div
+      className={className ?? ""}
+      style={{ position: "relative", overflow: "hidden" }}
+    >
+      {/* Light image */}
       <img
         src={lightSrc}
         alt={alt}
-        className={className ?? undefined}
         style={{
           ...styleImg(theme === "light"),
           opacity: theme === "light" ? 1 : 0,
@@ -58,16 +57,14 @@ export default function CrossfadeImage({
         }}
       />
 
-      {/* Dark image (either real dark variant or filtered fallback) */}
+      {/* Dark image */}
       <img
-        src={loadedDark ? darkSrc : lightSrc}
+        src={darkSrc}
         alt={alt}
-        className={className ?? undefined}
         style={{
           ...styleImg(theme === "dark"),
           opacity: theme === "dark" ? 1 : 0,
-          visibility: loadedDark || loadedLight ? "visible" : "hidden",
-          filter: loadedDark ? undefined : "brightness(0.5) saturate(0.7) contrast(0.9)",
+          visibility: loadedDark ? "visible" : "hidden",
         }}
       />
     </div>
