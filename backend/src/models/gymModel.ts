@@ -26,17 +26,19 @@ export const gyms: Gym[] = [
   },
   {
     id: 2,
-    name: "Fitness Hub",
-    location: "Lund",
-    description: "Ett modernt träningscenter med fokus på gruppträning",
+    name: "Brass Calla Sconce",
+    location: "Spain",
+    description:
+      "Rendered in hand-spun brass, each sconce features a bell-shaped shade and Calla’s signature fin embellishments in a range of finishes to mix and match.",
     imageUrl: "/lamp_brown_light.png",
     reviews: [],
   },
   {
     id: 3,
-    name: "Träningscentralen",
-    location: "Stockholm",
-    description: "Klassiskt gym i hjärtat av Stockholm med allt du behöver",
+    name: "Calla Pendant",
+    location: "Spain",
+    description:
+      "A hand-blown glass pendant that pairs a graceful silhouette with eye-catching embellishment. ",
     imageUrl: "/lamp_red_light.png",
     reviews: [],
   },

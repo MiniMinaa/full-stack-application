@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo">
-        Lightning
+        Bulb
       </Link>
       <div className="navbar-actions">
         {/* theme toggle moved to Browse header */}

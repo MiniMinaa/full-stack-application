@@ -64,7 +64,7 @@ export default function FadeImage({
       <img
         src={current}
         alt={alt}
-        className="fade-img curr"
+        className={className ?? "fade-img curr"}
         style={{
           position: prev ? "absolute" : "relative",
           top: 0,
