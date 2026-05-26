@@ -6,3 +6,4 @@ dist/
 .env
 backend/.env
 /src/generated/prisma
+/generated/prisma

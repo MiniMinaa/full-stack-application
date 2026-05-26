@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Lamp {
+  id          Int      @id @default(autoincrement())
+  name        String
+  location    String
+  description String?
+  imageUrl    String?
+  reviews     Review[]
+}
+
+model Review {
+  id      Int     @id @default(autoincrement())
+  author  String
+  rating  Int
+  comment String?
+  lampId  Int
+  lamp    Lamp    @relation(fields: [lampId], references: [id], onDelete: Cascade)
+}
