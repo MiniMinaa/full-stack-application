@@ -1,41 +1,27 @@
-import { lamps, type Lamp, type Review } from "../models/lampModel.js";
+import prisma from "../db.js";
 
-export const getAllLamps = (): Lamp[] => {
-  return lamps;
+export const getAllLamps = () => {
+  return prisma.lamp.findMany({ include: { reviews: true } });
 };
 
-export const getLampById = (id: number): Lamp | undefined => {
-  return lamps.find((gym) => gym.id === id);
+export const getLampById = (id: number) => {
+  return prisma.lamp.findUnique({ where: { id }, include: { reviews: true } });
 };
 
-export const createLamp = (lampData: Omit<Lamp, "id" | "reviews">): Lamp => {
-  const newLamp: Lamp = {
-    id: lamps.length + 1,
-    ...lampData,
-    reviews: [],
-  };
-
-  lamps.push(newLamp);
-
-  return newLamp;
+export const createLamp = (data: {
+  name: string;
+  location: string;
+  description?: string;
+  imageUrl?: string;
+}) => {
+  return prisma.lamp.create({ data, include: { reviews: true } });
 };
 
-export const addReviewToLamp = (
+export const addReviewToLamp = async (
   lampId: number,
-  reviewData: Omit<Review, "id">,
-): Review | null => {
-  const lamp = lamps.find((g) => g.id === lampId);
-
-  if (!lamp) {
-    return null;
-  }
-
-  const newReview: Review = {
-    id: lamp.reviews.length + 1,
-    ...reviewData,
-  };
-
-  lamp.reviews.push(newReview);
-
-  return newReview;
+  reviewData: { author: string; rating: number; comment?: string },
+) => {
+  const lamp = await prisma.lamp.findUnique({ where: { id: lampId } });
+  if (!lamp) return null;
+  return prisma.review.create({ data: { ...reviewData, lampId } });
 };

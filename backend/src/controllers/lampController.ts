@@ -7,76 +7,61 @@ import {
   addReviewToLamp,
 } from "../services/lampService.js";
 
-// Keep the original behaviour but export using the new names the routes expect.
-export const getLamps = (req: Request, res: Response): void => {
-  const lamps = getAllLamps();
-
-  res.status(200).json(lamps);
-};
-
-export const getSinglelamp = (req: Request, res: Response): void => {
-  const lampId = Number(req.params.id);
-
-  const lamp = getLampById(lampId);
-
-  if (!lamp) {
-    res.status(404).json({
-      message: "Lamp not found",
-    });
-
-    return;
+export const getLamps = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const lamps = await getAllLamps();
+    res.status(200).json(lamps);
+  } catch {
+    res.status(500).json({ message: "Failed to fetch lamps" });
   }
-
-  res.status(200).json(lamp);
 };
 
-export const createNewLamp = (req: Request, res: Response): void => {
+export const getSinglelamp = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const lamp = await getLampById(Number(req.params.id));
+    if (!lamp) {
+      res.status(404).json({ message: "Lamp not found" });
+      return;
+    }
+    res.status(200).json(lamp);
+  } catch {
+    res.status(500).json({ message: "Failed to fetch lamp" });
+  }
+};
+
+export const createNewLamp = async (req: Request, res: Response): Promise<void> => {
   const { name, location, description, imageUrl } = req.body;
 
   if (!name || !location || !imageUrl) {
-    res.status(400).json({
-      message: "Name, location, and image are required",
-    });
-
+    res.status(400).json({ message: "Name, location, and image are required" });
     return;
   }
 
-  const newLamp = createLamp({
-    name,
-    location,
-    description,
-    imageUrl,
-  });
-
-  res.status(201).json(newLamp);
+  try {
+    const newLamp = await createLamp({ name, location, description, imageUrl });
+    res.status(201).json(newLamp);
+  } catch {
+    res.status(500).json({ message: "Failed to create lamp" });
+  }
 };
 
-export const createReview = (req: Request, res: Response): void => {
+export const createReview = async (req: Request, res: Response): Promise<void> => {
   const lampId = Number(req.params.id);
-
   const { author, rating, comment } = req.body;
 
   if (!author || typeof rating !== "number") {
-    res.status(400).json({
-      message: "Author and rating are required",
-    });
-
+    res.status(400).json({ message: "Author and rating are required" });
     return;
   }
 
-  const review = addReviewToLamp(lampId, {
-    author,
-    rating,
-    comment,
-  });
-
-  if (!review) {
-    res.status(404).json({
-      message: "Lamp not found",
-    });
-
-    return;
+  try {
+    const review = await addReviewToLamp(lampId, { author, rating, comment });
+    if (!review) {
+      res.status(404).json({ message: "Lamp not found" });
+      return;
+    }
+    res.status(201).json(review);
+  } catch {
+    res.status(500).json({ message: "Failed to create review" });
   }
-
-  res.status(201).json(review);
 };
