@@ -1,140 +1,126 @@
-# Gym Review API
+# Lamp Review App
 
-A REST API for browsing and reviewing gyms. Users can browse gyms publicly, and authenticated users can add new gyms and leave reviews.
+A full-stack application for browsing and reviewing lamps. Users can browse publicly, and authenticated users can add lamps and leave reviews.
 
----
+## Deployed URLs
+
+Frontend: https://full-stack-application-i3po.vercel.app
+
+Backend: https://full-stack-application-0cdd.onrender.com
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express, TypeScript
-- **Auth:** Auth0 (JWT / RS256)
-- **Testing:** Vitest, Supertest
-- **CI/CD:** GitHub Actions
-- **Frontend:** React 19, Vite, TypeScript, Auth0 React SDK
+Frontend: React 19, Vite, TypeScript, Auth0 React SDK, deployed on Vercel
 
----
+Backend: Node.js, Express, TypeScript, deployed on Render
 
-## Setup
+Database: PostgreSQL with Prisma ORM, hosted on Render
 
-### Clone the repository
+Auth: Auth0 with JWT and RS256
+
+Testing: Vitest and Supertest
+
+CI/CD: GitHub Actions
+
+## Local Development
+
+Prerequisites: Node.js 20 and Docker.
+
+Clone the repository:
 
 ```bash
-git clone https://github.com/rut5/Gym-Review.git
-cd Gym-Review
+git clone https://github.com/MiniMinaa/full-stack-application.git
+cd full-stack-application
 ```
 
-### Install dependencies
+Create `backend/.env`:
 
-Backend:
+```
+PORT=5000
+AUTH0_AUDIENCE=https://full-stack-app
+AUTH0_ISSUER_BASE_URL=https://dev-dkt7wl5hjhqhhc08.us.auth0.com
+CLIENT_ORIGIN=http://localhost:4000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5433/lamp_review
+```
+
+Create `frontend/.env`:
+
+```
+VITE_AUTH0_DOMAIN=dev-dkt7wl5hjhqhhc08.us.auth0.com
+VITE_AUTH0_CLIENT_ID=lpqz2LtTxE1VDYbNg1rJf4sD3vBWGZ3K
+VITE_AUTH0_AUDIENCE=https://full-stack-app
+VITE_API_URL=http://localhost:5000
+```
+
+Start the local database:
+
 ```bash
-cd backend
-npm install
+docker-compose -f docker-compose.postgres.yml up -d
 ```
 
-Frontend:
+Install dependencies and generate the Prisma client:
+
 ```bash
-cd frontend
-npm install
+cd backend && npm install && npx prisma generate && cd ..
 ```
 
----
+Run migrations and seed the database:
 
-## Environment Variables
-
-### Backend — `backend/.env`
-
-```
-PORT=4000
-AUTH0_AUDIENCE=https://gym-review-api
-AUTH0_ISSUER_BASE_URL=https://your-tenant.auth0.com
-CLIENT_ORIGIN=http://localhost:5173
+```bash
+npm run migrate
+cd backend && npm run seed && cd ..
 ```
 
-### Frontend — `frontend/.env`
+Start both frontend and backend:
 
-```
-VITE_AUTH0_DOMAIN=your-tenant.auth0.com
-VITE_AUTH0_CLIENT_ID=your-client-id
-VITE_AUTH0_AUDIENCE=https://gym-review-api
-VITE_API_URL=http://localhost:4000
-```
-
-See `.env.example` in each folder for reference.
-
----
-
-## Running Locally
-
-Start both servers from the root:
 ```bash
 npm run dev
 ```
 
-Or individually:
+Frontend runs on http://localhost:4000 and backend on http://localhost:5000.
+
+## Running with Docker
+
 ```bash
-npm run dev:backend   # http://localhost:4000
-npm run dev:frontend  # http://localhost:5173
+docker-compose up --build
 ```
 
----
+Frontend will be available at http://localhost:4000 and backend at http://localhost:5000.
 
 ## API Endpoints
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/gyms` | Public | List all gyms |
-| GET | `/gyms/:id` | Public | Get a single gym with reviews |
-| POST | `/gyms` | Required | Add a new gym |
-| POST | `/gyms/:id/reviews` | Required | Add a review to a gym |
-| GET | `/profile` | Required | Get authenticated user profile |
+GET /lamps — public, returns all lamps
 
----
+GET /lamps/:id — public, returns a single lamp with its reviews
+
+POST /lamps — requires authentication, adds a new lamp
+
+POST /lamps/:id/reviews — requires authentication, adds a review
+
+GET /profile — requires authentication, returns the authenticated user profile
 
 ## Testing
 
 ```bash
-cd backend
-npm test
+cd backend && npm test
 ```
 
-### Integration Tests
+Tests run automatically on every push to main via GitHub Actions. They cover authentication protection on all routes, CORS headers for allowed origins, and that the X-Powered-By header is not exposed.
 
-- `GET /gyms` returns 200 with an array
-- `GET /gyms/:id` returns a single gym
-- `GET /gyms/:id` returns 404 for an unknown ID
-- `POST /gyms` without a token returns 401
-- `POST /gyms/:id/reviews` without a token returns 401
-- `GET /profile` without a token returns 401
+## Security Checklist
 
-Screenshot of passing local tests:
-![Screenshot of passing local tests](images/test-3.png)
+1. No secrets are committed. All credentials are stored in .env files or GitHub Secrets.
 
-Screenshot of passing GitHub Actions pipeline:
-![Screenshot of passing GitHub Actions pipeline](images/test-1.png)
-![Screenshot of passing GitHub Actions pipeline](images/test-2.png)
+2. CORS is restricted to the frontend deployed URL via the CLIENT_ORIGIN environment variable, not a wildcard.
 
----
+3. Tokens are never stored in localStorage. Auth0 SDK handles tokens in memory.
 
-## Authentication
+4. The deployed backend uses HTTPS, provided automatically by Render.
 
-Auth0 is used for authentication via `express-oauth2-jwt-bearer`. The frontend obtains a Bearer token using Auth0's React SDK and sends it in the `Authorization` header. The backend validates the RS256-signed JWT against Auth0's public JWKS on every request — no session is maintained server-side.
+5. Docker images do not contain .env files or node_modules from the host machine.
 
-Protected routes require a valid token and return `401 Unauthorized` otherwise.
+6. Auth0 callback and logout URLs are configured for the deployed Vercel URL, not localhost.
 
----
+## Reflections
 
-## Security
-
-- Auth0 secrets and credentials are stored in `.env` and GitHub Secrets — never committed to the repository
-- CORS is restricted to the frontend origin via `CLIENT_ORIGIN`
-- The `x-powered-by` header is disabled
-
----
-
-## What We Would Improve
-
-- Add a real database (PostgreSQL with Prisma — schema already scaffolded)
-- Add rate limiting
-- Add pagination for the gym list
-
----
+This assignment taught me what it actually takes to ship a full-stack application. I had to think about environment variables across local, Docker and cloud environments, which turned out to be more complex than I expected. Connecting Prisma to a managed PostgreSQL database on Render required understanding SSL connections and how platforms inject secrets at runtime. Configuring Auth0 for production meant updating callback URLs and CORS settings for the deployed URLs.
