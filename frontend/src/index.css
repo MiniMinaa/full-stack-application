@@ -126,13 +126,13 @@ a {
 }
 
 .btn-dark {
-  background: #9a3412;
+  background: #643a3a;
   color: #ffffff;
   border: none;
 }
 
 .btn-dark:hover:not(:disabled) {
-  background: #7c2d12;
+  background: #4a2a2a;
 }
 
 .btn-dark:disabled {
@@ -143,7 +143,7 @@ a {
 .btn-back {
   background: none;
   border: none;
-  color: #ffffff;
+  color: #3d2323;
   cursor: pointer;
   font-size: 1.05rem;
   font-weight: 600;
@@ -334,37 +334,80 @@ a {
   color: var(--text-muted);
 }
 
-.lamp-detail-card {
-  background: #ffffff;
-  border-radius: var(--radius);
-  overflow: hidden;
+.lamp-detail-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
-.lamp-detail-body {
-  padding: 1.5rem;
+.lamp-detail-name {
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #643a3a;
+}
+
+.lamp-detail-layout {
+  display: grid;
+  grid-template-columns: 0.8fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.lamp-detail-image-col {
+  position: sticky;
+  top: 2rem;
 }
 
 .lamp-detail-img {
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-.lamp-detail-header {
+.lamp-detail-dropdowns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.accordion {
+  border: 1px solid #643a3a;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.accordion-trigger {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
-  padding: 1.5rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--card-bg);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
 }
 
-.lamp-detail-header h1 {
-  font-family: var(--font-heading);
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  letter-spacing: 0.02em;
+.accordion-trigger:hover {
+  background: var(--border);
+}
+
+.accordion-chevron {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.accordion-body {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border);
 }
 
 .lamp-location {
@@ -375,35 +418,28 @@ a {
 
 .lamp-description {
   color: var(--text-muted);
-  max-width: 560px;
   font-size: 0.95rem;
+  margin-bottom: 0.75rem;
 }
 
-.rating-badge {
-  background: var(--accent);
-  color: white;
-  font-weight: 700;
-  font-size: 1.2rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--radius);
-  white-space: nowrap;
-  flex-shrink: 0;
+.lamp-avg-rating {
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 /* ── Reviews ─────────────────────────────────────────── */
 
-.reviews-section,
 .add-review-section {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
-.reviews-section h2,
-.add-review-section h2 {
+.add-review-section h3 {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  letter-spacing: 0.02em;
   color: var(--text);
 }
 
@@ -411,6 +447,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
+  margin-bottom: 1rem;
 }
 
 .review-card {
@@ -482,7 +519,7 @@ a {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12);
+  box-shadow: 0 0 0 3px rgba(100, 47, 37, 0.569);
 }
 
 .form-group textarea {
@@ -571,13 +608,12 @@ a {
   font-size: 0.95rem;
 }
 
-/* From Uiverse.io by Galahhad - switch styles (scoped to .ui-switch) */
 .ui-switch {
-  --switch-bg: rgb(135, 150, 165);
+  --switch-bg: rgb(130, 104, 104);
   --switch-width: 48px;
   --switch-height: 20px;
   --circle-diameter: 32px;
-  --circle-bg: rgb(0, 56, 146);
+  --circle-bg: rgb(109, 58, 45);
   --circle-inset: calc((var(--circle-diameter) - var(--switch-height)) / 2);
 }
 
@@ -661,8 +697,16 @@ a {
   transition: transform 0.45s ease;
 }
 
-.lamp-detail-img {
-  width: 100%;
-  height: 320px;
-  display: block;
+@media (max-width: 633px) {
+  .lamp-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lamp-detail-image-col {
+    position: static;
+  }
+
+  .lamp-detail-img {
+    aspect-ratio: 4 / 3;
+  }
 }

@@ -4,8 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getSinglelamp, createReview } from "../services/api";
 import type { Lamp } from "../types";
 import { useTheme } from "../contexts/ThemeContext";
-import FadeImage from "../components/FadeImage";
 import CrossfadeImage from "../components/CrossfadeImage";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function LampDetail() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +22,9 @@ export default function LampDetail() {
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const [infoOpen, setInfoOpen] = useState(true);
+  const [reviewsOpen, setReviewsOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -69,124 +72,143 @@ export default function LampDetail() {
       ).toFixed(1)
     : null;
 
-  const imageSrc =
-    theme === "dark" && lamp.imageUrl?.includes("_light")
-      ? lamp.imageUrl.replace("_light", "_dark")
-      : lamp.imageUrl;
-
   return (
     <div className="page">
       <button className="btn-back" onClick={() => navigate("/")}>
         ← Back to lamps
       </button>
 
-      <div className="lamp-detail-card">
-        {lamp.imageUrl &&
-          (() => {
-            const light = lamp.imageUrl!;
-            const dark = light.includes("_light")
-              ? light.replace("_light", "_dark")
-              : light;
-            return (
-              <CrossfadeImage
-                lightSrc={light}
-                darkSrc={dark}
-                theme={theme}
-                alt={lamp.name}
-                className="lamp-detail-img"
-                durationMs={1200}
-              />
-            );
-          })()}
+      <div className="lamp-detail-name-row">
+        <h1 className="lamp-detail-name">{lamp.name}</h1>
+        <ThemeToggle />
+      </div>
 
-        <div className="lamp-detail-body">
-          <div className="lamp-detail-header">
-            <div>
-              ← Back to lamps
-              <p className="lamp-location">📍 {lamp.location}</p>
-              {lamp.description && (
-                <p className="lamp-description">{lamp.description}</p>
-              )}
-            </div>
-            {avg && <div className="rating-badge">⭐ {avg}</div>}
+      <div className="lamp-detail-layout">
+        <div className="lamp-detail-image-col">
+          {lamp.imageUrl &&
+            (() => {
+              const light = lamp.imageUrl!;
+              const dark = light.includes("_light")
+                ? light.replace("_light", "_dark")
+                : light;
+              return (
+                <CrossfadeImage
+                  lightSrc={light}
+                  darkSrc={dark}
+                  theme={theme}
+                  alt={lamp.name}
+                  className="lamp-detail-img"
+                  durationMs={1200}
+                />
+              );
+            })()}
+        </div>
+
+        <div className="lamp-detail-dropdowns">
+          <div className="accordion">
+            <button
+              className="accordion-trigger"
+              onClick={() => setInfoOpen((o) => !o)}
+            >
+              <span>Info</span>
+              <span className="accordion-chevron">{infoOpen ? "▲" : "▼"}</span>
+            </button>
+            {infoOpen && (
+              <div className="accordion-body">
+                <p className="lamp-location">📍 {lamp.location}</p>
+                {lamp.description && (
+                  <p className="lamp-description">{lamp.description}</p>
+                )}
+                {avg && <p className="lamp-avg-rating">⭐ {avg} average rating</p>}
+              </div>
+            )}
           </div>
 
-          <section className="reviews-section">
-            <h2>Reviews ({lamp.reviews.length})</h2>
-            {lamp.reviews.length === 0 ? (
-              <p className="status">No reviews yet — be the first!</p>
-            ) : (
-              <div className="reviews-list">
-                {lamp.reviews.map((review: import("../types").Review) => (
-                  <div key={review.id} className="review-card">
-                    <div className="review-header">
-                      <span className="review-author">{review.author}</span>
-                      <span className="review-rating">
-                        {"⭐".repeat(review.rating)}
-                      </span>
-                    </div>
-                    {review.comment && (
-                      <p className="review-comment">{review.comment}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="add-review-section">
-            <h2>Leave a review</h2>
-            {isAuthenticated ? (
-              <form onSubmit={handleReview} className="review-form">
-                <div className="form-group">
-                  <label>Rating</label>
-                  <div className="star-selector">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <button
-                        key={n}
-                        type="button"
-                        className={`star ${n <= rating ? "active" : ""}`}
-                        onClick={() => setRating(n)}
-                      >
-                        ★
-                      </button>
+          <div className="accordion">
+            <button
+              className="accordion-trigger"
+              onClick={() => setReviewsOpen((o) => !o)}
+            >
+              <span>Reviews ({lamp.reviews.length})</span>
+              <span className="accordion-chevron">{reviewsOpen ? "▲" : "▼"}</span>
+            </button>
+            {reviewsOpen && (
+              <div className="accordion-body">
+                {lamp.reviews.length === 0 ? (
+                  <p className="status">No reviews yet — be the first!</p>
+                ) : (
+                  <div className="reviews-list">
+                    {lamp.reviews.map((review: import("../types").Review) => (
+                      <div key={review.id} className="review-card">
+                        <div className="review-header">
+                          <span className="review-author">{review.author}</span>
+                          <span className="review-rating">
+                            {"⭐".repeat(review.rating)}
+                          </span>
+                        </div>
+                        {review.comment && (
+                          <p className="review-comment">{review.comment}</p>
+                        )}
+                      </div>
                     ))}
                   </div>
-                </div>
+                )}
 
-                <div className="form-group">
-                  <label htmlFor="comment">Comment (optional)</label>
-                  <textarea
-                    id="comment"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="Share your experience..."
-                    rows={4}
-                  />
+                <div className="add-review-section">
+                  <h3>Leave a review</h3>
+                  {isAuthenticated ? (
+                    <form onSubmit={handleReview} className="review-form">
+                      <div className="form-group">
+                        <label>Rating</label>
+                        <div className="star-selector">
+                          {[1, 2, 3, 4, 5].map((n) => (
+                            <button
+                              key={n}
+                              type="button"
+                              className={`star ${n <= rating ? "active" : ""}`}
+                              onClick={() => setRating(n)}
+                            >
+                              ★
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="comment">Comment (optional)</label>
+                        <textarea
+                          id="comment"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                          placeholder="Share your experience..."
+                          rows={4}
+                        />
+                      </div>
+                      {submitError && <p className="form-error">{submitError}</p>}
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={submitting}
+                      >
+                        {submitting ? "Submitting..." : "Submit review"}
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="auth-prompt">
+                      <p>
+                        <button
+                          className="link-btn"
+                          onClick={() => loginWithRedirect()}
+                        >
+                          Log in
+                        </button>{" "}
+                        to leave a review
+                      </p>
+                    </div>
+                  )}
                 </div>
-                {submitError && <p className="form-error">{submitError}</p>}
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={submitting}
-                >
-                  {submitting ? "Submitting..." : "Submit review"}
-                </button>
-              </form>
-            ) : (
-              <div className="auth-prompt">
-                <p>
-                  <button
-                    className="link-btn"
-                    onClick={() => loginWithRedirect()}
-                  >
-                    Log in
-                  </button>{" "}
-                  to leave a review
-                </p>
               </div>
             )}
-          </section>
+          </div>
         </div>
       </div>
     </div>

@@ -36,7 +36,7 @@ export default function Browse() {
         className="page-header"
         style={{ justifyContent: "space-between", alignItems: "center" }}
       >
-        <h1 className="browse-title">Browse Lamps</h1>
+        <h1 className="browse-title">All Lamps</h1>
         <div style={{ marginLeft: "1rem" }}>
           <ThemeToggle />
         </div>
