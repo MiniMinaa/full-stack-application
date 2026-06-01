@@ -93,16 +93,6 @@ a {
   cursor: not-allowed;
 }
 
-.btn-outline {
-  background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.7);
-}
 
 .btn-nav-add {
   background: transparent !important;
@@ -202,6 +192,7 @@ a {
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 .page-header h1 {
@@ -221,27 +212,6 @@ a {
   letter-spacing: -0.01em;
 }
 
-.theme-toggle {
-  background: transparent;
-  border: 1px solid var(--border);
-  padding: 0.4rem 0.6rem;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.theme-toggle .theme-sun {
-  display: none;
-}
-.theme-toggle .theme-knob {
-  font-size: 1rem;
-}
-
-.page-header {
-  gap: 1rem;
-}
 
 /* ── Status ──────────────────────────────────────────── */
 
