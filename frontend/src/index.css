@@ -14,9 +14,10 @@ body {
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #eeedeb;
   background-attachment: fixed;
-  color: var(--text);
+  color: #643a3a;
   line-height: 1.6;
   min-height: 100vh;
+  font-weight: 400;
 }
 
 a {
@@ -43,8 +44,8 @@ a {
 .navbar-logo {
   font-family: var(--font-heading);
   font-size: 1rem;
-  font-weight: 400;
-  color: var(--accent);
+  font-weight: 600;
+  color: #643a3a;
   letter-spacing: 0.02em;
   display: flex;
   align-items: center;
@@ -55,10 +56,11 @@ a {
   display: flex;
   align-items: center;
   gap: 0.875rem;
+  font-weight: 300;
 }
 
 .navbar-user {
-  color: #a8a29e;
+  color: #643a3a;
   font-size: 0.875rem;
 }
 
@@ -70,7 +72,6 @@ a {
   padding: 0.5rem 1.25rem;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 500;
   cursor: pointer;
   border: none;
   transition:
@@ -93,20 +94,19 @@ a {
   cursor: not-allowed;
 }
 
-
 .btn-nav-add {
   background: transparent !important;
-  color: #ffffff !important;
-  border: 1.5px solid #ffffff !important;
+  color: #643a3a !important;
+  border: none !important;
 }
 
 .btn-nav-add:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(100, 58, 58, 0.1) !important;
 }
 
 .btn-cancel {
   background: #e5e7eb;
-  color: #374151;
+  color: #643a3a;
   border: 1.5px solid #d1d5db;
 }
 
@@ -133,10 +133,9 @@ a {
 .btn-back {
   background: none;
   border: none;
-  color: #3d2323;
+  color: #643a3a;
   cursor: pointer;
   font-size: 1.05rem;
-  font-weight: 600;
   padding: 0;
   margin-bottom: 1.5rem;
   transition: opacity 0.15s;
@@ -149,11 +148,10 @@ a {
 .link-btn {
   background: none;
   border: none;
-  color: var(--accent);
+  color: #643a3a;
   cursor: pointer;
   font-size: inherit;
   padding: 0;
-  font-weight: 500;
 }
 
 .link-btn:hover {
@@ -181,10 +179,8 @@ a {
 .page-narrow h1 {
   font-family: var(--font-heading);
   font-size: 2rem;
-  font-weight: 700;
   margin-bottom: 1.5rem;
   letter-spacing: 0.02em;
-  color: #ffffff;
 }
 
 .page-header {
@@ -205,20 +201,18 @@ a {
 .browse-title {
   font-family: var(--font-heading);
   font-size: 3rem;
-  font-weight: 800;
   color: #643a3a;
-  text-align: center;
+  text-align: left;
   width: 100%;
   letter-spacing: -0.01em;
 }
-
 
 /* ── Status ──────────────────────────────────────────── */
 
 .status {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--text-muted);
+  color: #643a3a;
   font-size: 0.95rem;
 }
 
@@ -263,19 +257,19 @@ a {
 
 .lamp-card-name {
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .lamp-card-location {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  color: var(--text-muted);
+  color: #643a3a;
   font-size: 0.675rem;
 }
 
 .lamp-card-desc {
-  color: var(--text-muted);
+  color: #643a3a;
   font-size: 0.695rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -298,16 +292,15 @@ a {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  font-weight: 600;
-  color: var(--accent);
+  color: #643a3a;
 }
 
 .no-reviews {
-  color: var(--text-muted);
+  color: #643a3a;
 }
 
 .review-count {
-  color: var(--text-muted);
+  color: #643a3a;
 }
 
 .lamp-detail-name-row {
@@ -320,7 +313,6 @@ a {
 .lamp-detail-name {
   font-family: var(--font-heading);
   font-size: 2.1rem;
-  font-weight: 500;
   letter-spacing: 0.02em;
   color: #643a3a;
 }
@@ -367,7 +359,6 @@ a {
   cursor: pointer;
   font-family: var(--font-heading);
   font-size: 1.1rem;
-  font-weight: 600;
   color: #643a3a;
   text-align: left;
 }
@@ -378,7 +369,7 @@ a {
 
 .accordion-chevron {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: #643a3a;
 }
 
 .accordion-body {
@@ -390,13 +381,13 @@ a {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--text-muted);
+  color: #643a3a;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
 
 .lamp-description {
-  color: var(--text-muted);
+  color: #643a3a;
   font-size: 0.95rem;
   margin-bottom: 0.75rem;
 }
@@ -405,7 +396,6 @@ a {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-weight: 600;
   font-size: 0.95rem;
 }
 
@@ -426,9 +416,8 @@ a {
 .add-review-section h3 {
   font-family: var(--font-heading);
   font-size: 1.1rem;
-  font-weight: 600;
   margin-bottom: 1rem;
-  color: var(--text);
+  color: inherit;
 }
 
 .reviews-list {
@@ -453,7 +442,6 @@ a {
 }
 
 .review-author {
-  font-weight: 600;
   font-size: 0.95rem;
 }
 
@@ -463,7 +451,7 @@ a {
 }
 
 .review-comment {
-  color: var(--text-muted);
+  color: #643a3a;
   font-size: 0.9rem;
 }
 
@@ -473,11 +461,11 @@ a {
 .lamp-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.875rem;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.25rem;
 }
 
 .form-group {
@@ -488,7 +476,6 @@ a {
 
 .form-group label {
   font-size: 0.875rem;
-  font-weight: 500;
 }
 
 .form-group input,
@@ -497,7 +484,7 @@ a {
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.9rem;
-  color: var(--text);
+  color: inherit;
   background: #ffffff;
   font-family: inherit;
   transition: border-color 0.15s;
@@ -525,7 +512,7 @@ a {
   border: none;
   font-size: 2rem;
   cursor: pointer;
-  color: #d1d5db;
+  color: #643a3a;
   padding: 0 0.125rem;
   line-height: 1;
   transition:
@@ -534,11 +521,11 @@ a {
 }
 
 .star.active {
-  color: var(--accent);
+  color: #643a3a;
 }
 
 .star:hover {
-  color: var(--accent);
+  color: #643a3a;
   transform: scale(1.15);
 }
 
@@ -563,15 +550,15 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 140px;
-  color: var(--text-muted);
+  height: 90px;
+  color: #643a3a;
   font-size: 0.9rem;
 }
 
 .image-upload-preview {
   display: block;
   width: 100%;
-  height: 200px;
+  height: 160px;
   object-fit: cover;
 }
 
@@ -587,7 +574,7 @@ a {
 }
 
 .auth-prompt {
-  color: var(--text-muted);
+  color: #643a3a;
   padding: 1.5rem;
   background: var(--card-bg);
   border: 1px solid var(--border);

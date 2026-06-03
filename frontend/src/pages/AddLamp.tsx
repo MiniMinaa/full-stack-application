@@ -66,8 +66,7 @@ export default function AddLamp() {
       <button className="btn-back" onClick={() => navigate("/")}>
         ← Back to lamps
       </button>
-      <h1>Add a lamp</h1>
-      <form onSubmit={handleSubmit} className="lamp-form">
+<form onSubmit={handleSubmit} className="lamp-form">
         <div className="form-group">
           <label htmlFor="name">Lamp Name *</label>
           <input
@@ -97,7 +96,7 @@ export default function AddLamp() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Tell people what makes this lamp special..."
-            rows={4}
+            rows={3}
           />
         </div>
         <div className="form-group">
