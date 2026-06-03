@@ -10,7 +10,7 @@ Backend: https://full-stack-application-0cdd.onrender.com
 
 ## Tech Stack
 
-Frontend: React 19, Vite, TypeScript, Auth0 React SDK, deployed on Vercel
+Frontend: React 19, Vite, TypeScript, Auth0 React SDK, Lucide React, deployed on Vercel
 
 Backend: Node.js, Express, TypeScript, deployed on Render
 
@@ -46,9 +46,9 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5433/lamp_review
 Create `frontend/.env`:
 
 ```
-VITE_AUTH0_DOMAIN=dev-dkt7wl5hjhqhhc08.us.auth0.com
-VITE_AUTH0_CLIENT_ID=lpqz2LtTxE1VDYbNg1rJf4sD3vBWGZ3K
-VITE_AUTH0_AUDIENCE=https://full-stack-app
+VITE_AUTH0_DOMAIN=your-auth0-domain
+VITE_AUTH0_CLIENT_ID=your-auth0-client-id
+VITE_AUTH0_AUDIENCE=your-auth0-audience
 VITE_API_URL=http://localhost:5000
 ```
 
