@@ -123,4 +123,22 @@ Tests run automatically on every push to main via GitHub Actions. They cover aut
 
 ## Reflections
 
-This assignment taught me what it actually takes to ship a full-stack application. I had to think about environment variables across local, Docker and cloud environments, which turned out to be more complex than I expected. Connecting Prisma to a managed PostgreSQL database on Render required understanding SSL connections and how platforms inject secrets at runtime. Configuring Auth0 for production meant updating callback URLs and CORS settings for the deployed URLs.
+**1. Why did you choose this deployment platform? What were the alternatives you considered?**
+
+I chose Vercel for the frontend and Render for the backend and database. Vercel detects the framework automatically and handles builds with no extra configuration. Render was good because it supports Node.js, managed PostgreSQL and environment variables. I considered Railway but since we got a lecture on Render I choose to stick to it.
+
+**2. What challenges did you face with Docker? How did you solve them?**
+
+The main challenge was my port conflicts. when i tried to run the containers, port 5000 was already in use by a leftover Node.js process from a previous development session. I solved it by identifying and killing the process using `lsof -i :5000` and then restarting the containers.
+
+**3. How did you handle environment variables and secrets in production vs locally?**
+
+Locally I used `.env` files for both frontend and backend, which are excluded from the repository via `.gitignore`. In production, all secrets are stored as environment variables directly in the Render and Vercel dashboards. The Docker images do not contain any `.env` files or secrets. The application reads environment variables at runtime from the host environment.
+
+**4. What would you do differently if you had one more week?**
+
+I'm pretty happy about it so far but I would and will keep working on the front end.
+
+**5. How did you ensure that authentication still works after deployment?**
+
+I updated the Auth0 application settings to include the deployed Vercel URL as an allowed callback and logout URL, and restricted CORS on the backend to only accept requests from that URL. I tested login and logout flows on the deployed app directly to confirm tokens were being issued and validated correctly against the production audience. The `withCredentials` flag is set on all authenticated requests to ensure cookies are sent cross-origin.
