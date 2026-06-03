@@ -6,6 +6,7 @@ import type { Lamp } from "../types";
 import { useTheme } from "../contexts/ThemeContext";
 import CrossfadeImage from "../components/CrossfadeImage";
 import ThemeToggle from "../components/ThemeToggle";
+import { MapPin, Star } from "lucide-react";
 
 export default function LampDetail() {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +24,7 @@ export default function LampDetail() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const [infoOpen, setInfoOpen] = useState(true);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [reviewsOpen, setReviewsOpen] = useState(false);
 
   useEffect(() => {
@@ -115,11 +116,11 @@ export default function LampDetail() {
             </button>
             {infoOpen && (
               <div className="accordion-body">
-                <p className="lamp-location">📍 {lamp.location}</p>
+                <p className="lamp-location"><MapPin size={14} strokeWidth={2} /> {lamp.location}</p>
                 {lamp.description && (
                   <p className="lamp-description">{lamp.description}</p>
                 )}
-                {avg && <p className="lamp-avg-rating">⭐ {avg} average rating</p>}
+                {avg && <p className="lamp-avg-rating"><Star size={14} strokeWidth={2} fill="currentColor" /> {avg} average rating</p>}
               </div>
             )}
           </div>
@@ -143,7 +144,9 @@ export default function LampDetail() {
                         <div className="review-header">
                           <span className="review-author">{review.author}</span>
                           <span className="review-rating">
-                            {"⭐".repeat(review.rating)}
+                            {Array.from({ length: review.rating }).map((_, i) => (
+                              <Star key={i} size={13} strokeWidth={2} fill="currentColor" />
+                            ))}
                           </span>
                         </div>
                         {review.comment && (

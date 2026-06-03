@@ -6,6 +6,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import ThemeToggle from "../components/ThemeToggle";
 import FadeImage from "../components/FadeImage";
 import CrossfadeImage from "../components/CrossfadeImage";
+import { MapPin, Star } from "lucide-react";
 
 function avgRating(lamp: Lamp): string | null {
   if (!lamp.reviews.length) return null;
@@ -85,13 +86,13 @@ export default function Browse() {
                     );
                   })()}
                 <h2 className="lamp-card-name">{lamp.name}</h2>
-                <p className="lamp-card-location">📍 {lamp.location}</p>
+                <p className="lamp-card-location"><MapPin size={13} strokeWidth={2} /> {lamp.location}</p>
                 {lamp.description && (
                   <p className="lamp-card-desc">{lamp.description}</p>
                 )}
                 <div className="lamp-card-footer">
                   {avg ? (
-                    <span className="rating">⭐ {avg}</span>
+                    <span className="rating"><Star size={13} strokeWidth={2} fill="currentColor" /> {avg}</span>
                   ) : (
                     <span className="no-reviews">No reviews yet</span>
                   )}

@@ -267,6 +267,9 @@ a {
 }
 
 .lamp-card-location {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   color: var(--text-muted);
   font-size: 0.675rem;
 }
@@ -292,6 +295,9 @@ a {
 }
 
 .rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   font-weight: 600;
   color: var(--accent);
 }
@@ -362,7 +368,7 @@ a {
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--text);
+  color: #643a3a;
   text-align: left;
 }
 
@@ -381,6 +387,9 @@ a {
 }
 
 .lamp-location {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
@@ -393,8 +402,17 @@ a {
 }
 
 .lamp-avg-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
 }
 
 /* ── Reviews ─────────────────────────────────────────── */

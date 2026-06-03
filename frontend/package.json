@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "axios": "^1.7.2",
+    "lucide-react": "^1.17.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.24.0"
@@ -24,7 +25,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "jsdom": "^22.1.0",
     "typescript": "^5.5.3",
-    "vitest": "^1.4.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vitest": "^1.4.2"
   }
 }
